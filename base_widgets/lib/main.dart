@@ -12,19 +12,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("My App build çalıştı");
-    return MaterialApp(
-      title: 'My Counter App',
-      theme: ThemeData(primarySwatch: Colors.purple),
-      //home bizim başlangıç sayfamızdır.
-      home: MyHomePage(),
-    );
+    return Container();
   }
 }
 
 // Home bizden bir stateless wdgt istiyor.
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int sayac = 0;
+
 // build içerisine yazılanlar anında ekrana çizilir ve değişmez.
   @override
   Widget build(BuildContext context) {
@@ -42,20 +44,29 @@ class MyHomePage extends StatelessWidget {
             style: TextStyle(fontSize: 24),
           ),
           Text(
-            '0',
+            sayac.toString(),
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           )
         ],
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint("Buton tıklandı");
+          sayaciArttir();
+          debugPrint("Butona tıklandı sayac degeri $sayac");
         },
         child: Icon(Icons.add),
       ),
     );
   }
+
+  void sayaciArttir() {
+    setState(() {
+      sayac++;
+    });
+  }
 }
+
+
 
 // Notlar ---------
 // Stateles widgetlarda build bir kere çalışır program ana hatları ile ekrana yazılır . Sonra ki etkileşimlerden ana hatlar etkilenmez.
