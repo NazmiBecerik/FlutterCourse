@@ -1,7 +1,8 @@
 // ignore_for_file: unnecessary_new, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
+import 'package:ogrenci_takip_sistemi/screens/student_add.dart';
+import 'package:ogrenci_takip_sistemi/screens/student_update.dart';
 import 'models/Student.dart';
 
 void main(List<String> args) {
@@ -16,9 +17,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String seciliOgrenci = "";
+  Student selectedStudent = new Student.withId(0, "", "", 0);
 
-  List<Student> students = [new Student("Nazmi", "Becerik", 75)];
+  List<Student> students = [new Student.withId(1, "Nazmi", "Becerik", 79)];
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +31,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void mesajGoster(context, String mesaj) {
-    var alert = AlertDialog(
-      title: Text("Sınav Sonucu"),
-      content: Text(mesaj),
-    );
+    var alert = AlertDialog(title: Text("İşlem sonucu"), content: Text(mesaj));
+    showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
   Widget buildBody(BuildContext context) {
@@ -56,13 +55,11 @@ class _MyAppState extends State<MyApp> {
                     trailing: buildStatusIcon(students[index].grade),
                     onTap: () {
                       setState(() {
-                        seciliOgrenci = (students[index].firstName.toString() +
-                            " " +
-                            students[index].lastName.toString());
+                        selectedStudent = students[index];
                       });
                     });
               })),
-      Text("Seçili Öğrenci : $seciliOgrenci"),
+      Text("Seçili Öğrenci :" + selectedStudent.firstName!),
       Row(
         children: <Widget>[
           // Flexible uygulanan tüm alana kendisini yapıştırır.
@@ -82,7 +79,10 @@ class _MyAppState extends State<MyApp> {
                     Text("Güncelle"),
                   ],
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => StudentUpdate()));
+                }),
           ),
           Flexible(
             fit: FlexFit.tight,
@@ -101,7 +101,12 @@ class _MyAppState extends State<MyApp> {
                         Text("Yeni Öğrenci"),
                       ],
                     ),
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StudentAdd()));
+                    }),
           ),
           Flexible(
             fit: FlexFit.tight,
@@ -119,7 +124,13 @@ class _MyAppState extends State<MyApp> {
                     Text("Sil"),
                   ],
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                  setState(() {
+                    students.remove(selectedStudent);
+                  });
+                  var mesaj = "Silindi : " + selectedStudent.firstName!;
+                  mesajGoster(context, mesaj);
+                }),
           )
         ],
       )
