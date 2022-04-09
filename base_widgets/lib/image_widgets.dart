@@ -5,36 +5,70 @@ class ImageOrnekleri extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imgUrl =
-        "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2Fyc3xlbnwwfHwwfHw%3D&w=1000&q=80";
+    String _imgURL =
+        'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80';
+    String _logoURL =
+        'https://emrealtunbilek.com/wp-content/uploads/2016/10/apple-icon-72x72.png';
     return Center(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Container(
+                    color: Colors.red.shade300,
+                    child: Image.asset(
+                      'assets/images/car.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.red.shade300,
+                    child: Image.network(
+                      _imgURL,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.red.shade300,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        /*child: Text(
+                      'E',
+                      style: Theme.of(context).textTheme.headline1,
+                  ),*/
+                        backgroundImage: NetworkImage(_logoURL),
+                        backgroundColor: Colors.amber,
+                        foregroundColor: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
-              width: 150,
-              height: 150,
-              color: Colors.red.shade300,
-              child: Image.asset(
-                "assets/images/car.jpg",
+            height: 200,
+            child: FadeInImage.assetNetwork(
                 fit: BoxFit.cover,
-              )),
-          Container(
-              width: 150,
-              height: 150,
-              color: Colors.red.shade300,
-              child: Image.network(
-                imgUrl,
-                fit: BoxFit.cover,
-              )),
-          Container(
-              color: Colors.yellow,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(imgUrl),
-                child: Text("E"),
-                radius: 50,
-                backgroundColor: Colors.purple,
-                foregroundColor: Colors.red,
-              ))
+                placeholder: 'assets/images/loading.gif',
+                image: _imgURL),
+          ),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Placeholder(
+              color: Colors.blue,
+            ),
+          )),
         ],
       ),
     );
